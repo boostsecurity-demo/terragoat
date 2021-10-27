@@ -21,6 +21,14 @@ resource "aws_s3_bucket" "data" {
   # bucket is not encrypted
   bucket        = "${local.resource_prefix.value}-data"
   acl           = "public-read"
+     # provides encryption at-rest without any maintenance required
+  server_side_encryption_configuration {
+      rule {
+          apply_server_side_encryption_by_default {
+              sse_algorithm = "AES256"
+          }
+      }
+  }
   force_destroy = true
   tags = {
     Name        = "${local.resource_prefix.value}-data"
